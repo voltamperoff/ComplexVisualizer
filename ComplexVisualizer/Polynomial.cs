@@ -3,13 +3,13 @@ using System.Numerics;
 
 namespace ComplexVisualizer
 {
-    class ComplexPolynomial
+    class Polynomial
     {
-        private Complex[] coefficients;
+        private readonly Complex[] coefficients;
 
         public int Degree { get; private set; }
 
-        public ComplexPolynomial(Complex[] coefficients)
+        public Polynomial(Complex[] coefficients)
         {
             if (coefficients == null || coefficients.Length == 0) {
                 throw new ArgumentNullException(nameof(coefficients));
@@ -19,7 +19,7 @@ namespace ComplexVisualizer
             Degree = coefficients.Length - 1;
         }
 
-        public ComplexPolynomial Derivative()
+        public Polynomial Derivative()
         {
             if (Degree == 0)
             {
@@ -33,7 +33,7 @@ namespace ComplexVisualizer
                 coefficients[i] = this.coefficients[i] * (Degree - i);
             }
 
-            return new ComplexPolynomial(coefficients);
+            return new Polynomial(coefficients);
         }
 
         public Complex Calculate(Complex z)
