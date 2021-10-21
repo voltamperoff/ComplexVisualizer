@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace ComplexVisualizer
 {
@@ -101,27 +99,41 @@ namespace ComplexVisualizer
 
     class Program
     {
-        static Complex f(Complex c)
-        {
-            var z = new Complex(0.0, 0.0) + c;
-
-            for (int i = 0; i < 100; i++)
-            {
-                z = z * z + z + c;
-            }
-
-            return z;
-        }
-
         static void Main(string[] args)
         {
             var r = new ResultsArray(800, 800);
+            var x = 3.0;
+            var d = new Complex(0.0, 0.0);
+            var a = new Complex(-x, x) + d;
+            var b = new Complex(x, -x) + d;
 
-            r.Setup(new Complex(-1.0, 1.0), new Complex(1.0, -1.0), f);
+            var coefficients = new Complex[]
+            {
+                new Complex(2.0, -0.1),
+                new Complex(1.5, -1.5),
+                new Complex(1.0, -3.0),
+                new Complex(0.0, -1.3),
+            };
+
+            var polynomial = new ComplexPolynomial(coefficients);
+            var derivative = polynomial.Derivative();
+
+            Complex Newton(Complex z)
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    z -= polynomial.Calculate(z) / derivative.Calculate(z);
+                }
+
+                return z;
+            }
+
+            r.Setup(a, b, Newton);
 
             r.Calculate();
 
-            r.SaveImage("D:\\test.png");
+            string format = "yy-MM-dd-HH-mm-ss";
+            r.SaveImage($"D:\\test-{DateTime.Now.ToString(format)}.png");
         }
     }
 }

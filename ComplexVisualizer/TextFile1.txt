@@ -1,7 +1,0 @@
-﻿public double NormalizeAngle(double fi)
-{
-	double res = fract(fi / (2*pi))) * 2 * pi;
-	if (res > pi) res -= 2*pi;
-}
-
-int g = Convert.ToInt32(255.0 * (1 - Math.Min(Math.Abs(NormalizeAngle(fi - 1.0 * arc)/arc, 1.0)));
